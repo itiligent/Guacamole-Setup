@@ -110,7 +110,23 @@ if [ $? -ne 0 ]; then
 	echo
 fi
 
-# Bounce Nginx to reload the new Nginx config so certbot config can start continue
+# Update general ufw rules so force traffic via reverse proxy. Only Nginx and SSH will be available over the network.
+echo -e "${GREY}Updating firewall rules to allow only SSH and tcp 80/443..."
+sudo ufw default allow outgoing > /dev/null 2>&1
+sudo ufw default deny incoming > /dev/null 2>&1
+sudo ufw allow OpenSSH > /dev/null 2>&1
+sudo ufw allow 80/tcp > /dev/null 2>&1
+sudo ufw allow 443/tcp > /dev/null 2>&1
+echo "y" | sudo ufw enable > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+	echo -e "${LRED}Failed. See ${LOG_LOCATION}${GREY}" 1>&2
+	exit 1
+	else
+	echo -e "${LGREEN}OK${GREY}"
+	echo
+fi
+
+# Bounce Nginx to reload the new Nginx config so certbot config can continue
 systemctl restart nginx
 
 # Run certbot to create and associate certificates with currenly public IP (must have tcp 80 and 443 open to work)
