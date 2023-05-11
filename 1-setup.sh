@@ -19,6 +19,7 @@
 # 3-install-nginx.sh automatically installs and configures Nginx to work as an http port 80 front end to Guacamole
 # 4a-install-self-signed-nginx.sh sets up the new Nginx/Guacamole front end with self signed SSL certificates.
 # 4b-install-ssl-letsencrypt-nginx.sh sets up Nginx with public SSL certificates from LetsEncrypt.
+# Scripts with "add" in their name can be run post guacamole setup to add optional features not included in the main install 
 
 clear
 
@@ -636,8 +637,15 @@ fi
 # Duo Settings reminder - If Duo is selected you can't login to Guacamole at all until this extension is fully configured
 if [ $INSTALL_DUO == "true" ]; then
 	echo
-	echo -e "${LYELLOW}Reminder: Duo requires extra account specific config before you can log in to Guacamole."
-	echo -e "See https://guacamole.apache.org/doc/${GUAC_VERSION}/gug/duo-auth.html"
+	echo -e "${LYELLOW}Reminder: Duo requires extra account specific info configured in the\n/etc/guacamole/guacamole.properties file before you can log in to Guacamole."
+	echo -e "See https://guacamole.apache.org/doc/gug/duo-auth.html"
+fi
+
+# LDAP Settings reminder, LDAP auth is not active functional until the config is complete
+if [ $INSTALL_LDAP == "true" ]; then
+	echo
+	echo -e "${LYELLOW}Reminder: LDAP requires that your LDAP directory configuration match the exact format\nadded to the /etc/guacamole/guacamole.properties file before LDAP auth will be active."
+	echo -e "See https://guacamole.apache.org/doc/gug/ldap-auth.html" 
 fi
 
 # Final tidy up

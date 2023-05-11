@@ -247,6 +247,15 @@ if [ $? -ne 0 ]; then
 	echo
 fi
 
+# Configure guacamole.properties file
+rm -f /etc/guacamole/guacamole.properties
+touch /etc/guacamole/guacamole.properties
+echo "mysql-hostname: ${MYSQL_HOST}" >> /etc/guacamole/guacamole.properties
+echo "mysql-port: ${MYSQL_PORT}" >> /etc/guacamole/guacamole.properties
+echo "mysql-database: ${GUAC_DB}" >> /etc/guacamole/guacamole.properties
+echo "mysql-username: ${GUAC_USER}" >> /etc/guacamole/guacamole.properties
+echo "mysql-password: ${GUAC_PWD}" >> /etc/guacamole/guacamole.properties
+
 # Move TOTP files
 if [ "${INSTALL_TOTP}" = true ]; then
 	echo -e "${GREY}Moving guacamole-auth-totp-${GUAC_VERSION}.jar (/etc/guacamole/extensions/)..."
@@ -258,6 +267,17 @@ fi
 if [ "${INSTALL_DUO}" = true ]; then
 	echo -e "${GREY}Moving guacamole-auth-duo-${GUAC_VERSION}.jar (/etc/guacamole/extensions/)..."
 	mv -f guacamole-auth-duo-${GUAC_VERSION}/guacamole-auth-duo-${GUAC_VERSION}.jar /etc/guacamole/extensions/
+	echo "#duo-api-hostname: " >> /etc/guacamole/guacamole.properties
+	echo "#duo-integration-key: " >> /etc/guacamole/guacamole.properties
+	echo "#duo-secret-key: " >> /etc/guacamole/guacamole.properties
+	echo "#duo-application-key: " >> /etc/guacamole/guacamole.properties
+	echo -e "Duo auth is installed, it will need to be configured via guacamole.properties"
+fi
+if [ $? -ne 0 ]; then
+	echo -e "${LRED}Failed. See ${LOG_LOCATION}${GREY}" 1>&2
+	exit 1
+	else
+	echo -e "${LGREEN}OK${GREY}"
 	echo
 fi
 
@@ -265,27 +285,29 @@ fi
 if [ "${INSTALL_LDAP}" = true ]; then
 	echo -e "${GREY}Moving guacamole-auth-ldap-${GUAC_VERSION}.jar (/etc/guacamole/extensions/)..."
 	mv -f guacamole-auth-ldap-${GUAC_VERSION}/guacamole-auth-ldap-${GUAC_VERSION}.jar /etc/guacamole/extensions/
+	echo "#If you have issues with LDAP, check the formatting is exactly as below or you will despair!" >> /etc/guacamole/guacamole.properties
+	echo "#Be extra careful with spaces at line ends or with windows line feeds." >> /etc/guacamole/guacamole.properties
+	echo "#ldap-hostname: dc1.yourdomain.com dc2.yourdomain.com" >> /etc/guacamole/guacamole.properties
+	echo "#ldap-port: 389" >> /etc/guacamole/guacamole.properties
+	echo "#ldap-username-attribute: sAMAccountName" >> /etc/guacamole/guacamole.properties
+	echo "#ldap-encryption-method: none" >> /etc/guacamole/guacamole.properties
+	echo "#ldap-search-bind-dn: ad-account@yourdomain.com" >> /etc/guacamole/guacamole.properties
+	echo "#ldap-search-bind-password: ad-account-password" >> /etc/guacamole/guacamole.properties
+	echo "#ldap-config-base-dn: dc=domain,dc=com" >> /etc/guacamole/guacamole.properties
+	echo "#ldap-user-base-dn: OU=SomeOU,DC=domain,DC=com" >> /etc/guacamole/guacamole.properties
+	echo "#ldap-user-search-filter:(objectClass=user)(!(objectCategory=computer))" >> /etc/guacamole/guacamole.properties
+	echo "#ldap-max-search-results:200" >> /etc/guacamole/guacamole.properties
+	echo -e "LDAP auth is installed, it will need to be configured via guacamole.properties"
+fi
+if [ $? -ne 0 ]; then
+	echo -e "${LRED}Failed. See ${LOG_LOCATION}${GREY}" 1>&2
+	exit 1
+	else
+	echo -e "${LGREEN}OK${GREY}"
 	echo
 fi
 
-# Configure guacamole.properties file
-rm -f /etc/guacamole/guacamole.properties
-touch /etc/guacamole/guacamole.properties
-echo "mysql-hostname: ${MYSQL_HOST}" >> /etc/guacamole/guacamole.properties
-echo "mysql-port: ${MYSQL_PORT}" >> /etc/guacamole/guacamole.properties
-echo "mysql-database: ${GUAC_DB}" >> /etc/guacamole/guacamole.properties
-echo "mysql-username: ${GUAC_USER}" >> /etc/guacamole/guacamole.properties
-echo "mysql-password: ${GUAC_PWD}" >> /etc/guacamole/guacamole.properties
-
-# Output Duo configuration settings into guacamole.properties
-if [ "${INSTALL_DUO}" = true ]; then
-	echo "duo-api-hostname: " >> /etc/guacamole/guacamole.properties
-	echo "duo-integration-key: " >> /etc/guacamole/guacamole.properties
-	echo "duo-secret-key: " >> /etc/guacamole/guacamole.properties
-	echo "duo-application-key: " >> /etc/guacamole/guacamole.properties
-	echo -e "${YELLOW}Duo is installed, it will need to be configured via guacamole.properties${GREY}"
-fi
-
+# Apply branded interface, you may delete this file and restart guacd & tomcat for default branding 
 echo -e "${GREY}Applying branded Guacamole login page and favicons..."
 # For details on how to brand Guacamole, see https://github.com/Zer0CoolX/guacamole-customize-loginscreen-extension
 sudo mv branding.jar /etc/guacamole/extensions
