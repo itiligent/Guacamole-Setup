@@ -32,6 +32,13 @@ LGREEN='\033[0;92m'
 LYELLOW='\033[0;93m'
 NC='\033[0m' #No Colour
 
+if [[ $EUID -eq 0 ]]; then
+	echo
+	echo -e "${LRED}This script must NOT be run as root" 1>&2
+	echo -e ${NC}
+	exit 1
+fi
+
 # Check to see if previous build/install files exist, stop and check to be safe.
 if [ "$( find . -maxdepth 1 \( -name 'guacamole-*' -o -name 'mysql-connector-java-*' \) )" != "" ]; then
 # Script branding header
