@@ -14,7 +14,8 @@ wget https://raw.githubusercontent.com/itiligent/Guacamole-Setup/main/1-setup.sh
 
 Before running the setup script, make sure you have the following prerequisites:
 
-- Recent flavors of Ubuntu / Debian / Raspbian
+- Recent flavors of Ubuntu / Debian / Raspbian 
+ ### WARNING: LASTEST DEBIAN 12 HAS SEVERAL PENDING ISSUES - SEE ISSUE #8)
 - Minimum 8GB RAM and 40GB HDD
 - Public or private DNS entries that match the default physical interface IP address (required for self SSL)
 - Incoming access on TCP ports 22, 80, and 443
