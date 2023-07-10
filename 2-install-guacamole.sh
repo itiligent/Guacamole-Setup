@@ -338,6 +338,8 @@ export MYSQL_PWD=${MYSQL_ROOT_PWD}
 # Restart MySQL service
 if [ "${INSTALL_MYSQL}" = true ]; then
 	echo -e "${GREY}Restarting MySQL service & enable at boot..."
+	# Set MySQl to start at boot
+	systemctl enable mysql
 	service mysql restart
 fi
 if [ $? -ne 0 ]; then
@@ -348,8 +350,6 @@ if [ $? -ne 0 ]; then
 	echo
 fi
 
-# Set MySQl to start at boot
-systemctl enable mysql
 
 # Default locations of MySQL config files
 for x in /etc/mysql/mariadb.conf.d/50-server.cnf \
