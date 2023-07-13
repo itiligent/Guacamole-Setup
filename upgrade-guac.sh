@@ -348,3 +348,4 @@ fi
 # Done
 printf "${LGREEN}Guacamole ${NEW_GUAC_VERSION} upgrade complete! \n${NC}"
 echo -e ${NC}
+

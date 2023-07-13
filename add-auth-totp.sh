@@ -40,3 +40,4 @@ rm -rf guacamole-*
 echo
 echo "Done!"
 echo -e ${NC}
+
