@@ -215,34 +215,6 @@ if [ $? -ne 0 ]; then
 	echo
 fi
 
-# Hack to assist with displaying "$" symbols and " ' quotes in a (cut/pasteable) bash screen output format for Nginx configs
-SHOWASTEXT1='$mypwd'
-SHOWASTEXT2='"Cert:\LocalMachine\Root"'
-
-printf "${GREY}+-------------------------------------------------------------------------------------------------------------
-${LGREEN}+ WINDOWS CLIENT SELF SIGNED SSL BROWSER CONFIG - SAVE THIS BEFORE CONTINUING!${GREY}
-+
-+ 1. In ${DOWNLOAD_DIR} is a new Windows friendly version of the new certificate ${LYELLOW}$SSLNAME.pfx${GREY}
-+ 2. Copy this .pfx file to a location accessible by Windows.
-+ 3. Import the PFX file into your Windows client with the below Powershell commands (as Administrator):
-\n"
-echo -e "${SHOWASTEXT1} = ConvertTo-SecureString -String "1234" -Force -AsPlainText"
-echo -e "Import-pfxCertificate -FilePath $SSLNAME.pfx -Password "${SHOWASTEXT1}" -CertStoreLocation "${SHOWASTEXT2}""
-echo -e "(Clear your browser cache and restart your browser to test.)"
-printf "${GREY}+-------------------------------------------------------------------------------------------------------------
-${LGREEN}+ LINUX CLIENT SELF SIGNED SSL BROWSER CONFIG - SAVE THIS BEFORE CONTINUING!${GREY}
-+
-+ 1. In ${DOWNLOAD_DIR} is a new Linux native OpenSSL certificate ${LYELLOW}$SSLNAME.crt${GREY}
-+ 2. Copy this file to a location accessible by Linux.
-+ 3. Import the CRT file into your Linux client certificate store with the below command (as sudo):
-\n"
-echo -e "certutil -d sql:$HOME/.pki/nssdb -A -t "CT,C,c" -n $SSLNAME -i $SSLNAME.crt"
-echo -e "(If certutil is not installed, run apt-get install libnss3-tools)"
-printf "+-------------------------------------------------------------------------------------------------------------\n"
-echo
-echo -e "${LYELLOW}The above SSL browser config instructions are saved in ${LGREEN}$LOG_LOCATION${GREY}"
-echo
-
 # Reload everything
 echo -e "${GREY}Restaring Guacamole & Ngnix..."
 sudo systemctl restart $TOMCAT_VERSION
@@ -253,7 +225,34 @@ if [ $? -ne 0 ]; then
 	exit 1
 else
 	echo -e "${LGREEN}OK${GREY}"
+	echo
 fi
+
+# Hack to assist with displaying "$" symbols and " ' quotes in a (cut/pasteable) bash screen output format for Nginx configs
+SHOWASTEXT1='$mypwd'
+SHOWASTEXT2='"Cert:\LocalMachine\Root"'
+
+printf "${GREY}+-------------------------------------------------------------------------------------------------------------
+${LGREEN}+ WINDOWS CLIENT SELF SIGNED SSL BROWSER CONFIG - SAVE THIS BEFORE CONTINUING!${GREY}
++
++ 1. In ${DOWNLOAD_DIR} is a new Windows friendly version of the new certificate ${LYELLOW}$SSLNAME.pfx${GREY}
++ 2. Import the PFX file into your Windows client with the below Powershell commands (as Administrator):
+\n"
+echo -e "${SHOWASTEXT1} = ConvertTo-SecureString -String "1234" -Force -AsPlainText"
+echo -e "Import-pfxCertificate -FilePath $SSLNAME.pfx -Password "${SHOWASTEXT1}" -CertStoreLocation "${SHOWASTEXT2}""
+printf "${GREY}+-------------------------------------------------------------------------------------------------------------
+${LGREEN}+ LINUX CLIENT SELF SIGNED SSL BROWSER CONFIG - SAVE THIS BEFORE CONTINUING!${GREY}
++
++ 1. In ${DOWNLOAD_DIR} is a new Linux native OpenSSL certificate ${LYELLOW}$SSLNAME.crt${GREY}
++ 2. Import the CRT file into your Linux client certificate store with the below command:
+\n"
+echo -e "(If certutil is not installed, run apt-get install libnss3-tools)"
+echo -e "mkdir -p $HOME/.pki/nssdb && certutil -d $HOME/.pki/nssdb -N"
+echo -e "certutil -d sql:$HOME/.pki/nssdb -A -t "CT,C,c" -n $SSLNAME -i $SSLNAME.crt"
+printf "+-------------------------------------------------------------------------------------------------------------\n"
+echo
+echo -e "${LYELLOW}The above SSL browser config instructions are saved in ${LGREEN}$LOG_LOCATION${GREY}"
+echo
 
 # Done
 echo -e ${NC}

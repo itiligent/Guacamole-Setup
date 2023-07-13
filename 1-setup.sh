@@ -46,7 +46,7 @@ echo
 	echo -e "${GREYB}Itiligent Virtual Desktop Appliance Setup."
 	echo -e "                    ${LGREEN}Powered by Guacamole"
 	echo
-	echo
+
 	echo -e "${LRED}Possible previous temp files detected in current build path. Please review and remove old 'guacamole-*' & 'mysql-connector-j-*' files before proceeding.${GREY}" 1>&2
 	echo
 exit 1
@@ -158,7 +158,6 @@ mkdir -p $TMP_DIR
 
 # Download config scripts and setup items from GitHub
 cd $DOWNLOAD_DIR
-echo
 echo -e "${GREY}Downloading setup files...${DGREY}"
 wget -q --show-progress ${GITHUB}2-install-guacamole.sh -O 2-install-guacamole.sh
 wget -q --show-progress ${GITHUB}3-install-nginx.sh -O 3-install-nginx.sh
@@ -185,7 +184,6 @@ echo
 echo -e "${GREYB}Itiligent Virtual Desktop Appliance Setup."
 echo -e "                    ${LGREEN}Powered by Guacamole"
 echo
-echo
 
 # For convenience & sanity check, display status of preset script options at start of install
 echo -e "${GREY}Enabled non-interactive presets are listed below, blank entries will prompt."
@@ -205,23 +203,22 @@ echo -e "${DGREY}Add LDAP\t\t= ${GREY}${INSTALL_LDAP}${GREY}"
 echo -e "${DGREY}Install Nginx rev proxy\t= ${GREY}${INSTALL_NGINX}${GREY}"
 echo -e "${DGREY}Proxy local DNS name\t= ${GREY}${PROXY_SITE}"
 echo -e "${DGREY}Add self signed SSL\t= ${GREY}${SELF_SIGN}${GREY}"
-echo -e "${DGREY}Self sign cert days\t= ${GREY}${CERT_DAYS}${GREY}"
-echo -e "${DGREY}Self sign country\t= ${GREY}${CERT_COUNTRY}${GREY}"
-echo -e "${DGREY}Self sign state\t\t= ${GREY}${CERT_STATE}${GREY}"
-echo -e "${DGREY}Self sign location\t= ${GREY}${CERT_LOCATION}${GREY}"
-echo -e "${DGREY}Self sign ORG\t\t= ${GREY}${CERT_ORG}${GREY}"
-echo -e "${DGREY}Self sign OU\t\t= ${GREY}${CERT_OU}${GREY}"
+#echo -e "${DGREY}Self sign cert days\t= ${GREY}${CERT_DAYS}${GREY}"
+#echo -e "${DGREY}Self sign country\t= ${GREY}${CERT_COUNTRY}${GREY}"
+#echo -e "${DGREY}Self sign state\t\t= ${GREY}${CERT_STATE}${GREY}"
+#echo -e "${DGREY}Self sign location\t= ${GREY}${CERT_LOCATION}${GREY}"
+#echo -e "${DGREY}Self sign ORG\t\t= ${GREY}${CERT_ORG}${GREY}"
+#echo -e "${DGREY}Self sign OU\t\t= ${GREY}${CERT_OU}${GREY}"
 echo -e "${DGREY}Add Let's Encrypt SSL\t= ${GREY}${LETS_ENCRYPT}${GREY}"
 echo -e	"${DGREY}Let's Encrypt FQDN\t= ${GREY}${LE_DNS_NAME}${GREY}"
 echo -e "${DGREY}Let's Encrypt email\t= ${GREY}${LE_EMAIL}${GREY}"
-echo -e "${DGREY}Backup notify email\t= ${GREY}${BACKUP_EMAIL}${GREY}"
-echo -e "${DGREY}Days to keep backups\t= ${GREY}${BACKUP_RETENTION}${GREY}"
+#echo -e "${DGREY}Backup notify email\t= ${GREY}${BACKUP_EMAIL}${GREY}"
+#echo -e "${DGREY}Days to keep backups\t= ${GREY}${BACKUP_RETENTION}${GREY}"
 
 # Pause to optionally customise downloaded scripts before any actual install actions
 echo
 echo -e "${LYELLOW}Ctrl+Z now to exit if you wish to edit any 1-setup.sh options for an unattended install."
-echo -e "${LYELLOW}After editing, you must always run it locally (and not as sudo) i.e ./1-setup.sh (not from the link)."
-echo -e "${LYELLOW}Comment out download links if you wish to prevent re-downloading scripts at each run. "
+
 
 # Now prompt for sudo to get ready for a hostname change, then while we are here also set perms for sudo and non sudo access to tmp setup files
 echo -e "${LGREEN}"
@@ -293,7 +290,6 @@ clear
 echo
 echo -e "${GREYB}Itiligent Virtual Desktop Appliance Setup."
 echo -e "                    ${LGREEN}Powered by Guacamole"
-echo
 echo
 
 # Prompt the user to install MySQL, default of yes

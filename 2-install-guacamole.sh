@@ -24,7 +24,6 @@ echo -e "${GREYB}Itiligent Virtual Desktop Appliance Setup."
 echo -e "                    ${LGREEN}Powered by Guacamole"
 
 echo
-echo
 echo -e "Beginning Guacamole setup...${GREY}"
 echo
 
@@ -260,7 +259,13 @@ echo "mysql-password: ${GUAC_PWD}" >> /etc/guacamole/guacamole.properties
 if [ "${INSTALL_TOTP}" = true ]; then
 	echo -e "${GREY}Moving guacamole-auth-totp-${GUAC_VERSION}.jar (/etc/guacamole/extensions/)..."
 	mv -f guacamole-auth-totp-${GUAC_VERSION}/guacamole-auth-totp-${GUAC_VERSION}.jar /etc/guacamole/extensions/
+if [ $? -ne 0 ]; then
+	echo -e "${LRED}Failed. See ${LOG_LOCATION}${GREY}" 1>&2
+	exit 1
+	else
+	echo -e "${LGREEN}OK${GREY}"
 	echo
+fi
 fi
 
 # Move Duo files
@@ -272,13 +277,13 @@ if [ "${INSTALL_DUO}" = true ]; then
 	echo "#duo-secret-key: " >> /etc/guacamole/guacamole.properties
 	echo "#duo-application-key: " >> /etc/guacamole/guacamole.properties
 	echo -e "Duo auth is installed, it will need to be configured via guacamole.properties"
-fi
 if [ $? -ne 0 ]; then
 	echo -e "${LRED}Failed. See ${LOG_LOCATION}${GREY}" 1>&2
 	exit 1
 	else
 	echo -e "${LGREEN}OK${GREY}"
 	echo
+fi
 fi
 
 # Move LDAP files
@@ -297,14 +302,13 @@ if [ "${INSTALL_LDAP}" = true ]; then
 	echo "#ldap-user-base-dn: OU=SomeOU,DC=domain,DC=com" >> /etc/guacamole/guacamole.properties
 	echo "#ldap-user-search-filter:(objectClass=user)(!(objectCategory=computer))" >> /etc/guacamole/guacamole.properties
 	echo "#ldap-max-search-results:200" >> /etc/guacamole/guacamole.properties
-	echo -e "LDAP auth is installed, it will need to be configured via guacamole.properties"
-fi
 if [ $? -ne 0 ]; then
 	echo -e "${LRED}Failed. See ${LOG_LOCATION}${GREY}" 1>&2
 	exit 1
 	else
 	echo -e "${LGREEN}OK${GREY}"
 	echo
+fi
 fi
 
 # Apply branded interface, you may delete this file and restart guacd & tomcat for default branding 
