@@ -91,4 +91,3 @@ sudo systemctl restart guacd
 echo
 echo "Done!"
 echo -e ${NC}
-
