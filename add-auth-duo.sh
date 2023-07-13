@@ -56,3 +56,4 @@ rm -rf guacamole-*
 
 echo
 echo -e ${NC}
+
