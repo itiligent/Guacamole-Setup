@@ -58,7 +58,7 @@ fi
 # Install Guacamole build dependencies.
 echo
 echo -e "${GREY}Installing dependencies required for building Guacamole, this might take a few minutes..."
-apt-get -qq -y install ${JPEGTURBO} ${LIBPNG} ufw htop pwgen wget crudini build-essential libcairo2-dev libtool-bin uuid-dev libavcodec-dev libavformat-dev libavutil-dev \
+apt-get -qq -y install ${JPEGTURBO} ${LIBPNG} ufw htop pwgen wget crudini expect build-essential libcairo2-dev libtool-bin uuid-dev libavcodec-dev libavformat-dev libavutil-dev \
 libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libssl-dev \
 libvorbis-dev libwebp-dev ghostscript ${MYSQL} ${TOMCAT_VERSION} &>> ${LOG_LOCATION}
 if [ $? -ne 0 ]; then
@@ -499,15 +499,44 @@ fi
 
 # Apply Secure MySQL installation settings
 if [ "${SECURE_MYSQL}" = true ]; then
-echo -e "${GREY}Applying mysql_secure_installation settings...${GREY}"
-printf "${MYSQL_ROOT_PWD}\n n\n n\n y\n y\n y\n y\n y\n" | sudo mysql_secure_installation &>> ${LOG_LOCATION}
-fi
+echo -e "${GREY}Applying mysql_secure_installation settings...${DGREY}"
+MYSQLPW=${MYSQL_ROOT_PWD}
+SECURE_MYSQL=$(expect -c "
+set timeout 10
+spawn mysql_secure_installation
+expect \"Enter current password for root (enter for none):\"
+send \"$MYSQLPW\r\"
+expect \"Switch to unix_socket authentication\"
+send \"n\r\"
+expect \"Change the root password?\"
+send \"n\r\"
+expect \"Remove anonymous users?\"
+send \"y\r\"
+expect \"Disallow root login remotely?\"
+send \"y\r\"
+expect \"Remove test database and access to it?\"
+send \"y\r\"
+expect \"Reload privilege tables now?\"
+send \"y\r\"
+expect eof
+")
+echo "$SECURE_MYSQL"
 if [ $? -ne 0 ]; then
 	echo -e "${LRED}Failed. See ${LOG_LOCATION}${GREY}" 1>&2
 	exit 1
 	else
 	echo -e "${LGREEN}OK${GREY}"
 fi
+fi
+
 
 # Done
 echo -e ${NC}
+
+
+
+
+
+
+
+
