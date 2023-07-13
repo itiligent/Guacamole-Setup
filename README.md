@@ -32,9 +32,9 @@ Choose an authentication extension [DUO, TOTP, LDAP or None]  - simultaneous TOT
 
 ### 3. Add Optional Reverse Proxy Front End to Guacamole
 
-- Install Nginx Reverse Proxy?: y/n (No = default Guacamole frontend `http://hostname:8080/guacamole`)
-- Install Nginx with no SSL?: y/n (Y = `http://hostname.local`)
-- Install Nginx with self-signed SSL certificates?: y/n (Y = `https://hostname.local`. *This option generates Windows and Linux browser certificates (`$site.crt`, `$site.key`, and `$site.pfx`) in the `$DOWNLOAD_DIR/guac-setup` directory and configures SSL with Nginx.)*
+- Install Nginx Reverse Proxy?: y/n (N = http 8080 default Guacamole frontend `http://hostname:8080/guacamole`)
+- Install Nginx with no SSL?: y/n (Y = http 80 `http://hostname.local`)
+- Install Nginx with self-signed SSL certificates?: y/n (Y = https 443 `https://hostname.local`. *This option generates Windows and Linux browser certificates (`$site.crt`, `$site.key`, and `$site.pfx`) in the `$DOWNLOAD_DIR/guac-setup` directory and configures SSL with Nginx.)*
 - Install Nginx with Let's Encrypt certificates?: y/n (Y =`https://public.site.com`. *This configures Nginx with a newly created LetsEncrypt certificate and sets up auto renewals.)*
 
 ### Optional post install hardening
@@ -55,7 +55,7 @@ To create an unattended setup or further customise the setup script, follow thes
 5. Do _*NOT*_ run `./1-setup.sh` as sudo, it prompts as needed.
 6. There should be no need to customise any scripts other than `1-setup.sh`. Be aware that all optional (manually run) "add-x.sh" scripts are dynamically updated during the installation with the exact variables you selected at install. Editing anything other than `1-setup.sh` may break this functionality, so make changes only if you understand the impacts.
 
-### Gloaasry of items downloaded by the setup script
+### Glossary of items downloaded by the setup script
 
 The setup command mentioned above downloads the following items into the `$DOWNLOAD_DIR/guac-setup` directory:
 
