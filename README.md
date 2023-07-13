@@ -12,9 +12,7 @@ wget https://raw.githubusercontent.com/itiligent/Guacamole-Setup/main/1-setup.sh
 
 ## Prerequisites
 
-Before running the setup script, make sure you have the following prerequisites:
-
-- Recent flavors of Ubuntu / Debian / Raspbian 
+- Any recent flavors of Ubuntu / Debian / Raspbian 
  ### PLEASE NOTE: LASTEST DEBIAN 12 HAS SEVERAL PENDING ISSUES - SEE ISSUE #8
 - Minimum 8GB RAM and 40GB HDD
 - Public or private DNS entries that match the default physical interface IP address (required for self SSL)
@@ -52,12 +50,12 @@ The installer downloads additional scripts for:
 To create an unattended setup or further customise the setup script, follow these steps:
 1. Paste and run the wget link above.
 2. Exit `1-setup.sh` script at the first prompt (at this point, only the scripts are downloaded).
-3. Edit the "Silent setup options" section of `1-setup.sh`. Variables with an actual setting (e.g., `VARIABLE="value"`) will not prompt during the interactive setup. With the right combination of variable inputs, it is possible to deploy Guacamole, Nginx, and SSL with zero touch.
-4. After making any script edits, ensure that you run the setup script saved locally with `./1-setup.sh` instead of using the web link. To keep your script adaptations and avoid overwriting, comment out the relevant wget lines in the "Download GitHub Setup" section at the top of `1-setup.sh` before running setup locally. Commented out scripts will not be re-downloaded, and the installer will work from the local customised copy.
+3. Edit the "Silent setup options" section of `1-setup.sh`. *Variables with an actual setting (e.g., `VARIABLE="value"`) will not prompt during the interactive setup. With the right combination of variable inputs, it is possible to mass deploy Guacamole, Nginx, and SSL with zero touch.*
+4. After making any script edits, ensure that you run the setup script saved locally with `./1-setup.sh` instead of using the web link. *To keep your script adaptations and avoid overwriting, comment out the relevant wget lines in the "Download GitHub Setup" section at the top of `1-setup.sh` before running setup locally. Commented out scripts will not be re-downloaded, and the installer will work from the local customised copy.*
 5. Do _*NOT*_ run `./1-setup.sh` as sudo, it prompts as needed.
-6. There should be no need to customise any scripts other than `1-setup.sh`. Be aware that all optional (manually run) "add-x.sh" scripts are dynamically updated during the installation with the relevant variables you may have selected. Editing anything other than `1-setup.sh` may break this functionality, so make changes only if you understand the impacts.
+6. There should be no need to customise any scripts other than `1-setup.sh`. Be aware that all optional (manually run) "add-x.sh" scripts are dynamically updated during the installation with the exact variables you selected at install. Editing anything other than `1-setup.sh` may break this functionality, so make changes only if you understand the impacts.
 
-### Items Downloaded with the Setup Command
+### Gloaasry of items downloaded by the setup script
 
 The setup command mentioned above downloads the following items into the `$DOWNLOAD_DIR/guac-setup` directory:
 
@@ -67,8 +65,8 @@ The setup command mentioned above downloads the following items into the `$DOWNL
 - `4a-install-ssl-self-signed-nginx.sh`: Configures self-signed SSL certificates for Nginx proxy (optional)
 - `4b-install-ssl-letsencrypt-nginx.sh`: Installs and configures Let's Encrypt with Guacamole and Nginx proxy (optional)
 - `add-auth-duo.sh`: Adds the Duo MFA extensions if not selected during install (optional)
-- `add-auth-ldap.sh`: Adds the LDAP Active Directory extension and provides LDAP setup requirements (optional)
-- `add-auth-totp.sh`: Adds the TOTP MFA extension if not selected during install (optional)
+- `add-auth-ldap.sh`: Adds the Active Directory extension and setup template if not selected at install (optional)
+- `add-auth-totp.sh`: Adds the TOTP MFA extension if not selected at install (optional)
 - `add-ssl-guac-gaucd.sh`: A hardening script to wrap traffic between the guacd server and the Guacamole client (optional)
 - `add-fail2ban.sh`: Adds and configures fail2ban to secure Guacamole against brute force attacks
 - `add-smtp-relay-o365.sh`: Sets up a TLS/SMTP auth relay with O365 for monitoring and alerts (BYO app password)
