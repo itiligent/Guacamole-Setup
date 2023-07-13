@@ -32,9 +32,9 @@ Choose an authentication extension [DUO, TOTP, LDAP or None]  - simultaneous TOT
 
 ### 3. Add Optional Reverse Proxy Front End to Guacamole
 
-- Install Nginx Reverse Proxy?: y/n (N = http 8080 default Guacamole frontend `http://hostname:8080/guacamole`)
-- Install Nginx with no SSL?: y/n (Y = http 80 `http://hostname.local`)
-- Install Nginx with self-signed SSL certificates?: y/n (Y = https 443 `https://hostname.local`. *This option generates Windows and Linux browser certificates (`$site.crt`, `$site.key`, and `$site.pfx`) in the `$DOWNLOAD_DIR/guac-setup` directory and configures SSL with Nginx.)*
+- Install Nginx Reverse Proxy?: y/n (N = default Guacamole frontend `http://hostname:8080/guacamole`)
+- Install Nginx with no SSL?: y/n (Y = `http://hostname.local`)
+- Install Nginx with self-signed SSL certificates?: y/n (Y = `https://hostname.local`. *This option generates Windows and Linux browser certificates (`$site.crt`, `$site.key`, and `$site.pfx`) in the `$DOWNLOAD_DIR/guac-setup` directory and configures SSL with Nginx.)*
 - Install Nginx with Let's Encrypt certificates?: y/n (Y =`https://public.site.com`. *This configures Nginx with a newly created LetsEncrypt certificate and sets up auto renewals.)*
 
 ### Optional post install hardening
