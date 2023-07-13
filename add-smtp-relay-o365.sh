@@ -122,3 +122,4 @@ read -p "Enter an email address to test that email relay is working : " TEST_EMA
 echo "This is a test email" | mail -s "SMTP Auth Relay Is Working is working" ${TEST_EMAIL} -a "FROM:${SMTP_EMAIL}"
 echo -e "${LGREEN}Test message sent.."
 echo -e ${NC}
+
