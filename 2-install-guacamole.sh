@@ -153,15 +153,15 @@ echo -e "${LGREEN}Downloaded guacamole-auth-ldap-${GUAC_VERSION}.tar.gz${GREY}"
 fi
 
 # Download MySQL connector/j
-wget -q --show-progress -O mysql-connector-java-${MYSQLJCON}.tar.gz https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-${MYSQLJCON}.tar.gz
+wget -q --show-progress -O mysql-connector-j-${MYSQLJCON}.tar.gz https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-${MYSQLJCON}.tar.gz
 if [ $? -ne 0 ]; then
-	echo -e "${LRED}Failed to download mysql-connector-java-${MYSQLJCON}.tar.gz" 1>&2
-	echo -e "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-${MYSQLJCON}}.tar.gz${GREY}"
+	echo -e "${LRED}Failed to download mysql-connector-j-${MYSQLJCON}.tar.gz" 1>&2
+	echo -e "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-${MYSQLJCON}}.tar.gz${GREY}"
 	exit 1
 	else
-	tar -xzf mysql-connector-java-${MYSQLJCON}.tar.gz
+	tar -xzf mysql-connector-j-${MYSQLJCON}.tar.gz
 fi
-echo -e "${LGREEN}Downloaded mysql-connector-java-${MYSQLJCON}.tar.gz${GREY}"
+echo -e "${LGREEN}Downloaded mysql-connector-j-${MYSQLJCON}.tar.gz${GREY}"
 
 echo -e "Source download complete.${GREY}"
 
@@ -237,8 +237,8 @@ mv -f guacamole-auth-jdbc-${GUAC_VERSION}/mysql/guacamole-auth-jdbc-mysql-${GUAC
 ln -sf /etc/guacamole/guacamole.war /var/lib/${TOMCAT_VERSION}/webapps/
 
 # Move MySQL connector/j files
-echo -e "${GREY}Moving mysql-connector-java-${MYSQLJCON}.jar (/etc/guacamole/lib/mysql-connector-java.jar)..."
-mv -f mysql-connector-java-${MYSQLJCON}/mysql-connector-java-${MYSQLJCON}.jar /etc/guacamole/lib/mysql-connector-java.jar
+echo -e "${GREY}Moving mysql-connector-j-${MYSQLJCON}.jar (/etc/guacamole/lib/mysql-connector-java.jar)..."
+mv -f mysql-connector-j-${MYSQLJCON}/mysql-connector-j-${MYSQLJCON}.jar /etc/guacamole/lib/mysql-connector-java.jar
 if [ $? -ne 0 ]; then
 	echo -e "${LRED}Failed. See ${LOG_LOCATION}${GREY}" 1>&2
 	exit 1
@@ -487,7 +487,7 @@ fi
 # Cleanup
 echo -e "${GREY}Cleanup install files...${GREY}"
 rm -rf guacamole-*
-rm -rf mysql-connector-java-*
+rm -rf mysql-connector-j-*
 unset MYSQL_PWD
 if [ $? -ne 0 ]; then
 	echo -e "${LRED}Failed. See ${LOG_LOCATION}${GREY}" 1>&2

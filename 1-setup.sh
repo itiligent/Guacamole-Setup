@@ -40,14 +40,14 @@ if [[ $EUID -eq 0 ]]; then
 fi
 
 # Check to see if previous build/install files exist, stop and check to be safe.
-if [ "$( find . -maxdepth 1 \( -name 'guacamole-*' -o -name 'mysql-connector-java-*' \) )" != "" ]; then
+if [ "$( find . -maxdepth 1 \( -name 'guacamole-*' -o -name 'mysql-connector-j-*' \) )" != "" ]; then
 # Script branding header
 echo
 	echo -e "${GREYB}Itiligent Virtual Desktop Appliance Setup."
 	echo -e "                    ${LGREEN}Powered by Guacamole"
 	echo
 	echo
-	echo -e "${LRED}Possible previous temp files detected in current build path. Please review and remove old 'guacamole-*' & 'mysql-connector-java-*' files before proceeding.${GREY}" 1>&2
+	echo -e "${LRED}Possible previous temp files detected in current build path. Please review and remove old 'guacamole-*' & 'mysql-connector-j-*' files before proceeding.${GREY}" 1>&2
 	echo
 exit 1
 fi
@@ -66,13 +66,13 @@ TMP_DIR=$DOWNLOAD_DIR/tmp
 GITHUB="https://raw.githubusercontent.com/itiligent/Guacamole-Setup/main/"
 
 #Version of Guacamole to install
-GUAC_VERSION="1.5.1"
+GUAC_VERSION="1.5.2"
 
 # Set preferred Apache CDN download link
 GUAC_SOURCE_LINK="http://apache.org/dyn/closer.cgi?action=download&filename=guacamole/${GUAC_VERSION}"
 
 # MySQL Connector/J version
-MYSQLJCON="8.0.30"
+MYSQLJCON="8.0.33"
 
 # Check for the latest version of Tomcat currently supported by the Linux distro
 if [[ $( apt-cache show tomcat10 2> /dev/null | egrep "Version: 10" | wc -l ) -gt 0 ]]; then
